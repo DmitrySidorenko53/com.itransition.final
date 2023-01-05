@@ -13,9 +13,7 @@ public class LoginModel
     [DataType(DataType.Password)]
     [Display(Name = "Password")]
     public string Password { get; set; } = null!;
-
-    [Display(Name = "Remember?")]
-    public bool RememberMe { get; set; }
     
-    public string? ReturnUrl { get; set; }
+    [Display(Name = "Remember?")] 
+    public bool RememberMe { get; set; }
 }

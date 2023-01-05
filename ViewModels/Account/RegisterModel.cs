@@ -31,7 +31,6 @@ public class RegisterModel
     [DataType(DataType.Password)]
     [Display(Name = "Confirm Password")]
     public string PasswordConfirm { get; set; } = null!;
-    
-    [DataType(DataType.Upload)]
-    public byte[] Image { get; set; } = null!;
+
+//    public byte[] Image { get; set; } = null!;
 }

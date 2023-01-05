@@ -1,7 +1,6 @@
 using com.itransition.final.Models.Context;
 using com.itransition.final.Models.UserData;
-using com.itransition.final.Services;
-using com.itransition.final.Services.Impl;
+using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -26,7 +25,21 @@ builder.Services.AddIdentity<User, IdentityRole>(
     )
     .AddEntityFrameworkStores<ApplicationContext>();
 
-builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddAuthentication(options =>
+    {
+        options.DefaultAuthenticateScheme = GoogleDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
+    })
+    .AddGoogle(options =>
+    {
+        options.ClientId = "reviews";
+        options.ClientSecret = "reviews";
+    })
+    .AddFacebook(options =>
+    {
+        options.AppId = "reviews";
+        options.AppSecret = "reviews";
+    });
 
 builder.Services.AddControllersWithViews();
 
@@ -50,5 +63,4 @@ app.UseEndpoints(endpoints =>
 });
 
 app.Run(
-    
 );

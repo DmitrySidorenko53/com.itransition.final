@@ -6,23 +6,22 @@ namespace com.itransition.final.Models.Context;
 
 public static class ModelBuilderExtensions
 {
-    private static readonly List<string> AdminPasswords = new() {"Glory2010"};
-
     public static void Seed(this ModelBuilder builder)
     {
         var roles = GetDefaultRoles();
         var admins = GetDefaultAdmin();
+        var adminsRoles = GetAdminRoles(roles, admins);
+
         builder.Entity<IdentityRole>().HasData(roles);
         builder.Entity<User>().HasData(admins);
-        admins.ForEach(a => HashPassword(a, AdminPasswords[admins.IndexOf(a)]));
-        var adminsRoles = GetAdminRoles(roles, admins);
+        admins.ForEach(HashPassword);
         builder.Entity<IdentityUserRole<string>>().HasData(adminsRoles);
     }
 
-    private static void HashPassword(User user, string password)
+    private static void HashPassword(User user)
     {
         var passwordHasher = new PasswordHasher<User>();
-        user.PasswordHash = passwordHasher.HashPassword(user, password);
+        user.PasswordHash = passwordHasher.HashPassword(user, "Glory2010");
     }
 
     private static List<IdentityUserRole<string>> GetAdminRoles(
@@ -35,7 +34,7 @@ public static class ModelBuilderExtensions
                 UserId = users[0].Id,
                 RoleId = identityRoles.FirstOrDefault(r => r.Name.Equals(RoleTitle.Admin.ToString()))?.Id!
             },
-            new ()
+            new()
             {
                 UserId = users[0].Id,
                 RoleId = identityRoles.FirstOrDefault(r => r.Name.Equals(RoleTitle.User.ToString()))?.Id!
@@ -50,6 +49,7 @@ public static class ModelBuilderExtensions
             new()
             {
                 Email = "dimasidorenko53@gmail.com",
+                UserName = "dimasidorenko53@gmail.com",
                 FirstName = "Dmitry",
                 LastName = "Sidorenko",
                 Status = Status.Active,
@@ -63,8 +63,8 @@ public static class ModelBuilderExtensions
     {
         return new List<IdentityRole>()
         {
-            new() {Name = RoleTitle.Admin.ToString()},
-            new() {Name = RoleTitle.User.ToString()}
+            new() {Name = RoleTitle.Admin.ToString(), NormalizedName = RoleTitle.Admin.ToString().ToUpper()},
+            new() {Name = RoleTitle.User.ToString(), NormalizedName = RoleTitle.User.ToString().ToUpper()}
         };
     }
 }
