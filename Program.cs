@@ -1,16 +1,17 @@
 using com.itransition.final.Models.Context;
 using com.itransition.final.Models.UserData;
-using Microsoft.AspNetCore.Authentication.Google;
+using com.itransition.final.Services;
+using com.itransition.final.Services.Impl;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-string connection = builder.Configuration.GetConnectionString("DeployConnection");
-
+string connection = builder.Configuration.GetConnectionString("LocalConnection");
 builder.Services.AddDbContext<ApplicationContext>(
     options => options.UseSqlServer(connection)
 );
+
 builder.Services.AddIdentity<User, IdentityRole>(
         options =>
         {
@@ -20,12 +21,14 @@ builder.Services.AddIdentity<User, IdentityRole>(
             options.Password.RequireUppercase = true;
             options.Password.RequireNonAlphanumeric = false;
             options.User.RequireUniqueEmail = true;
-            options.SignIn.RequireConfirmedEmail = true;
         }
     )
     .AddEntityFrameworkStores<ApplicationContext>();
 
-builder.Services.AddAuthentication(options =>
+builder.Services.AddScoped<IReviewService, ReviewService>();
+builder.Services.AddControllersWithViews();
+
+/*builder.Services.AddAuthentication(options =>
     {
         options.DefaultAuthenticateScheme = GoogleDefaults.AuthenticationScheme;
         options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
@@ -39,9 +42,8 @@ builder.Services.AddAuthentication(options =>
     {
         options.AppId = "reviews";
         options.AppSecret = "reviews";
-    });
+    });*/
 
-builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
@@ -59,8 +61,7 @@ app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllerRoute(
         name: "default",
-        pattern: "{controller=Home}/{action=Index}/{id?}");
+        pattern: "{controller=Reviews}/{action=Home}");
 });
 
-app.Run(
-);
+app.Run();

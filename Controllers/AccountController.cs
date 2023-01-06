@@ -1,12 +1,10 @@
-﻿using com.itransition.final.Models;
+﻿using System.Net;
+using System.Runtime.Loader;
+using com.itransition.final.Models;
 using com.itransition.final.Models.UserData;
-using com.itransition.final.Services;
-using com.itransition.final.Services.Impl;
 using com.itransition.final.ViewModels.Account;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace com.itransition.final.Controllers;
 
@@ -14,14 +12,11 @@ public class AccountController : Controller
 {
     private readonly UserManager<User> _userManager;
     private readonly SignInManager<User> _signInManager;
-    private readonly RoleManager<IdentityRole> _roleManager;
 
-    public AccountController(SignInManager<User> signInManager, UserManager<User> userManager,
-        RoleManager<IdentityRole> roleManager)
+    public AccountController(SignInManager<User> signInManager, UserManager<User> userManager)
     {
         _signInManager = signInManager;
         _userManager = userManager;
-        _roleManager = roleManager;
     }
 
     [HttpGet]
@@ -33,7 +28,7 @@ public class AccountController : Controller
     [HttpGet]
     public IActionResult Register()
     {
-        return View();
+        return View(new RegisterModel());
     }
 
     [HttpPost]
@@ -45,7 +40,15 @@ public class AccountController : Controller
             return View(loginModel);
         }
 
-        return null;
+        var result = await _signInManager.PasswordSignInAsync(
+            loginModel.Email, loginModel.Password, loginModel.RememberMe, false
+        );
+        if (!result.Succeeded)
+        {
+            ModelState.AddModelError(string.Empty, "Incorrect password or email!");
+            return View(loginModel);
+        }
+        return RedirectToAction("Home", "Reviews");
     }
 
     [HttpPost]
@@ -57,7 +60,21 @@ public class AccountController : Controller
             return View(registerModel);
         }
 
-        return null;
+        var user = CreateFromModel(registerModel);
+        var resultCreate = await _userManager.CreateAsync(user, registerModel.Password);
+        var resultAssignRole = await _userManager.AddToRoleAsync(user, nameof(RoleTitle.User));
+        if (!resultCreate.Succeeded && !resultAssignRole.Succeeded)
+        {
+            foreach (var identityError in resultCreate.Errors)
+            {
+                ModelState.AddModelError(string.Empty, identityError.Description);
+            }
+
+            return View(registerModel);
+        }
+
+        await _signInManager.SignInAsync(user, false);
+        return RedirectToAction("Home", "Reviews");
     }
 
     [HttpPost]
@@ -67,8 +84,17 @@ public class AccountController : Controller
         return RedirectToAction("Home", "Reviews");
     }
 
+    private User CreateFromModel(RegisterModel registerModel)
+    {
+        return new User
+        {
+            Email = registerModel.Email, UserName = registerModel.Email,
+            FirstName = registerModel.FirstName, LastName = registerModel.LastName,
+            RegisterDateTime = DateTime.Now, Status = Status.Active
+        };
+    }
+
     [HttpPost]
-    [AllowAnonymous]
     [ValidateAntiForgeryToken]
     public IActionResult ExternalLogin(string provider, string returnUrl = null)
     {

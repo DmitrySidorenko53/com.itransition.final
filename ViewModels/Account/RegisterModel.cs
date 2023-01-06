@@ -32,5 +32,5 @@ public class RegisterModel
     [Display(Name = "Confirm Password")]
     public string PasswordConfirm { get; set; } = null!;
 
-//    public byte[] Image { get; set; } = null!;
+   // public byte[] Image { get; set; } = null!;
 }

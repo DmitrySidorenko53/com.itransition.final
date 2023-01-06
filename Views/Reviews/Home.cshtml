@@ -1,5 +1,4 @@
 ﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8"/>
@@ -19,7 +18,7 @@
 <nav class="navbar bg-light">
     <div class="container-lg mx-auto">
         <div class="col-2 col-lg-1">
-            <a class="navbar-brand" href="home.html">HM</a>
+            <a class="navbar-brand" href="@Url.Action("Home")">HM</a>
         </div>
         <div class="col-8 col-lg-9 text-start">
             <div class="d-flex">
@@ -27,21 +26,15 @@
             </div>
         </div>
         <div class="col-2 col-lg-1 text-end">
-            @if (!User.Identity!.IsAuthenticated)
-            {
-                <a class="btn btn-outline-secondary" href="@Url.Action("Login", "Account")">
-                    <i class="fi fi-rr-user-add me-1" style="vertical-align: middle;"></i>
-                </a>
-            }
-            @if (User.Identity!.IsAuthenticated)
+            @if (User.Identity.IsAuthenticated)
             {
                 <div class="btn-group dropstart">
                     <button
-                        class="btn rounded-circle btn-outline-dark opacity-75"
+                        class="btn rounded-circle btn-outline-dark opacity-75 h-100"
                         type="button"
                         data-bs-toggle="dropdown"
                         aria-expanded="false">
-                        <span class="text-uppercase"></span>
+                        <span class="text-uppercase">@User.Identity.Name![0]</span>
                     </button>
                     <ul class="dropdown-menu">
                         <li>
@@ -73,7 +66,7 @@
                             >
                         </li>
                         <li>
-                            <a class="dropdown-item" href="@Url.Action()">
+                            <a class="dropdown-item" href="@Url.Action("Reviews")">
                                 <i
                                     class="fi fi-rr-eye me-1"
                                     style="vertical-align: middle">
@@ -88,7 +81,7 @@
                         <li>
                             <div class="dropdown-item">
                                 <div class="form-check form-switch">
-                                    <form asp-action="" asp-controller="Account" method="post">
+                                    <form method="" action="" class="m-0">
                                         <input
                                             class="form-check-input"
                                             type="checkbox"
@@ -103,7 +96,7 @@
                         <li>
                             <div class="dropdown-item">
                                 <div class="form-check form-switch">
-                                    <form method="" action="">
+                                    <form method="" action="" class="m-0">
                                         <input
                                             class="form-check-input"
                                             type="checkbox"
@@ -119,7 +112,7 @@
                             <hr class="dropdown-divider"/>
                         </li>
                         <li>
-                            <form method="post" asp-action="Logout" asp-controller="Account">
+                            <form method="post" asp-action="Logout" asp-controller="Account" class="m-0">
                                 <button class="btn border-0" type="submit">
                                     <i
                                         class="fi fi-rr-power me-1"
@@ -132,7 +125,12 @@
                     </ul>
                 </div>
             }
-
+            else
+            {
+                <a class="btn btn-outline-secondary" href="@Url.Action("Login", "Account")">
+                    <i class="fi fi-rr-user-add" style="vertical-align: middle;"></i>
+                </a>
+            }
         </div>
     </div>
 </nav>
@@ -141,7 +139,7 @@
     <div class="col-4 col-sm-6">
         <button
             type="button"
-            class="btn btn-light"
+            class="btn btn-light h-100"
             data-bs-toggle="modal"
             data-bs-target="#filterModal">
             <i class="fi fi-rr-settings-sliders"></i>
@@ -238,7 +236,7 @@
         </div>
     </div>
     <div class="col-8 col-sm-6">
-        <form class="d-flex me-2 w-100" role="search" method="" action="">
+        <form class="d-flex me-2 m-0 w-100" role="search" method="" action="">
             <input
                 id="searchInput"
                 class="form-control me-2"
@@ -256,7 +254,6 @@
     <div class="col-md-4 col-sm-6 col-lg-3 mb-3">
         <div class="card">
             <img
-                src=""
                 class="card-img-top"
                 alt=""/>
             <div class="card-body">
@@ -350,33 +347,23 @@
     </div>
 </div>
 <div class="row mb-3">
-    <nav>
-        <ul class="pagination justify-content-center">
+    <ul class="pagination justify-content-center">
+        
             <li class="page-item">
-                <a class="page-link text-dark">
-                    <i class="fi fi-rr-angle-left">
-                    </i
-                    >
+                <a class="page-link text-dark" @*asp-action=""
+                   asp-route-page="@(Model.PageViewModel.PageNumber - 1)"*@>
+                    Previous
                 </a>
             </li>
+        
             <li class="page-item">
-                <a class="page-link text-dark" href="#">1</a>
-            </li>
-            <li class="page-item">
-                <a class="page-link text-dark" href="#">2</a>
-            </li>
-            <li class="page-item">
-                <a class="page-link text-dark" href="#">3</a>
-            </li>
-            <li class="page-item">
-                <a class="page-link text-dark" href="#">
-                    <i class="fi fi-rr-angle-right">
-                    </i
-                    >
+                <a class="page-link text-dark" @*asp-action=""
+                   asp-route-page="@(Model.PageViewModel.PageNumber + 1)"*@>
+                    Next
                 </a>
             </li>
-        </ul>
-    </nav>
+        
+    </ul>
 </div>
 </div>
 <script

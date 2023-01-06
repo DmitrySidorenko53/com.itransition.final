@@ -1,6 +1,5 @@
 ﻿@model com.itransition.final.ViewModels.Account.RegisterModel
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8"/>
@@ -21,11 +20,11 @@
 <div class="container-lg mt-5">
     <div class="row justify-content-center">
         <div class="col-10 col-sm-8 col-md-7 col-lg-6 border p-3 rounded border-2">
+            <h5 class="text-center mt-1 mb-4 fw-bold text-muted">
+                NEW ACCOUNT
+            </h5>
             <form asp-action="Register" asp-controller="Account" method="post">
                 <div asp-validation-summary="ModelOnly"></div>
-                <h5 class="text-center mt-1 mb-4 fw-bold text-muted">
-                    NEW ACCOUNT
-                </h5>
                 <div class="row">
                     <div class="col-12 col-md-6 mb-3">
                         <div class="form-floating">
@@ -93,7 +92,6 @@
                     <input
                         asp-for="PasswordConfirm"
                         class="form-control"
-
                         required/>
                     <label asp-for="PasswordConfirm">
                         <i
@@ -109,20 +107,13 @@
                     class="btn btn-outline-success w-100 mb-3 fw-bold">
                     Submit
                 </button>
-                <div class="text-center">
-                    <span
-                    >
-                        Already have an account?
-                        <a
-                            href="@Url.Action("Login", "Account")"
-                            class="text-decoration-none ms-1">
-                            Sign In!
-                        </a
-                        >
-                    </span
-                    >
-                </div>
             </form>
+            <div class="text-center mb-3">
+                Are you already have an account?
+                <p>
+                    <a class="text-info" href="@Url.Action("Login", "Account")">Please, sign in!</a>
+                </p>
+            </div>
         </div>
     </div>
 </div>

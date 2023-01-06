@@ -7,15 +7,15 @@ namespace com.itransition.final.Models.Context;
 public static class ModelBuilderExtensions
 {
     public static void Seed(this ModelBuilder builder)
-    {
+    { 
         var roles = GetDefaultRoles();
-        var admins = GetDefaultAdmin();
-        var adminsRoles = GetAdminRoles(roles, admins);
+        // var admins = GetDefaultAdmin();
+        // var adminsRoles = GetAdminRoles(roles, admins);
 
         builder.Entity<IdentityRole>().HasData(roles);
-        builder.Entity<User>().HasData(admins);
-        admins.ForEach(HashPassword);
-        builder.Entity<IdentityUserRole<string>>().HasData(adminsRoles);
+        // builder.Entity<User>().HasData(admins);
+        // admins.ForEach(HashPassword);
+        // builder.Entity<IdentityUserRole<string>>().HasData(adminsRoles);
     }
 
     private static void HashPassword(User user)
