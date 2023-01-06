@@ -1,6 +1,6 @@
 ﻿using com.itransition.final.Models.ReviewModels;
 
-namespace com.itransition.final.ViewModels.Reviews;
+namespace com.itransition.final.ViewModels;
 
 public class SortModel
 {
