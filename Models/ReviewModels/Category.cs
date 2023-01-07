@@ -2,5 +2,5 @@
 
 public enum Category
 {
-    Films, Games, Books, Serials, YouTubeChannels
+    Films, Games, Books, Serials, YouTubeChannels, None
 }

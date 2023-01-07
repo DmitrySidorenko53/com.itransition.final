@@ -1,4 +1,5 @@
-﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+﻿@using com.itransition.final.Models.UserData
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 <html lang="en">
 <head>
     <meta charset="UTF-8"/>
@@ -55,16 +56,19 @@
                             </a
                             >
                         </li>
-                        <li>
-                            <a class="dropdown-item" href="@Url.Action()">
-                                <i
-                                    class="fi fi-rr-business-time me-1"
-                                    style="vertical-align: middle">
-                                </i>
-                                Admin panel
-                            </a
-                            >
-                        </li>
+                        @if (User.IsInRole(nameof(RoleTitle.Admin)))
+                        {
+                            <li>
+                                <a class="dropdown-item" href="@Url.Action()">
+                                    <i
+                                        class="fi fi-rr-business-time me-1"
+                                        style="vertical-align: middle">
+                                    </i>
+                                    Admin panel
+                                </a
+                                >
+                            </li>
+                        }
                         <li>
                             <a class="dropdown-item" href="@Url.Action("Reviews")">
                                 <i
@@ -348,21 +352,21 @@
 </div>
 <div class="row mb-3">
     <ul class="pagination justify-content-center">
-        
-            <li class="page-item">
-                <a class="page-link text-dark" @*asp-action=""
+
+        <li class="page-item">
+            <a class="page-link text-dark" @*asp-action=""
                    asp-route-page="@(Model.PageViewModel.PageNumber - 1)"*@>
-                    Previous
-                </a>
-            </li>
-        
-            <li class="page-item">
-                <a class="page-link text-dark" @*asp-action=""
+                Previous
+            </a>
+        </li>
+
+        <li class="page-item">
+            <a class="page-link text-dark" @*asp-action=""
                    asp-route-page="@(Model.PageViewModel.PageNumber + 1)"*@>
-                    Next
-                </a>
-            </li>
-        
+                Next
+            </a>
+        </li>
+
     </ul>
 </div>
 </div>

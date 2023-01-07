@@ -26,6 +26,7 @@ builder.Services.AddIdentity<User, IdentityRole>(
     .AddEntityFrameworkStores<ApplicationContext>();
 
 builder.Services.AddScoped<IReviewService, ReviewService>();
+builder.Services.AddScoped<ICommentService, CommentService>();
 builder.Services.AddControllersWithViews();
 
 /*builder.Services.AddAuthentication(options =>

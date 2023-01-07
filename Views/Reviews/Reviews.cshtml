@@ -1,4 +1,7 @@
 ﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using com.itransition.final.Models.ReviewModels
+@using com.itransition.final.Models.UserData
+@model com.itransition.final.ViewModels.Reviews.MyReviews.MyReviewsModel
 <html lang="en">
 <head>
     <meta charset="UTF-8"/>
@@ -55,16 +58,19 @@
                             </a
                             >
                         </li>
-                        <li>
-                            <a class="dropdown-item" href="@Url.Action()">
-                                <i
-                                    class="fi fi-rr-business-time me-1"
-                                    style="vertical-align: middle">
-                                </i>
-                                Admin panel
-                            </a
-                            >
-                        </li>
+                        @if (User.IsInRole(nameof(RoleTitle.Admin)))
+                        {
+                            <li>
+                                <a class="dropdown-item" href="@Url.Action()">
+                                    <i
+                                        class="fi fi-rr-business-time me-1"
+                                        style="vertical-align: middle">
+                                    </i>
+                                    Admin panel
+                                </a
+                                >
+                            </li>
+                        }
                         <li>
                             <a class="dropdown-item" href="@Url.Action("Reviews")">
                                 <i
@@ -152,7 +158,8 @@
     aria-labelledby="filter">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <form action="" method="">
+            <form asp-action="CreateReview" asp-controller="Reviews" method="post">
+                <div asp-validation-summary="ModelOnly"></div>
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="createModal">
                         <i class="fi fi-rr-add"></i>
@@ -177,55 +184,50 @@
                             aria-describedby="basic-addon1"/>
                     </div>
                     <div class="row mb-3 pb-2 px-2">
-                        <label for="title" class="form-label fw-bold p-0 ps-1">
+                        <label asp-for="CreateReviewModel!.Title" class="form-label fw-bold p-0 ps-1">
                             Title :
                         </label>
                         <input
-                            type="text"
-                            id="title"
+                            asp-for="CreateReviewModel.Title"
                             class="form-control"
-                            aria-label="title"
                             placeholder="Game of the year"
-                            aria-describedby="basic-addon1"/>
+                            required/>
+                        <span class="text-danger " asp-validation-for="CreateReviewModel.Title"></span>
                     </div>
                     <div class="row mb-3 pb-2 px-2">
                         <label
-                            for="productTitle"
+                            asp-for="CreateReviewModel!.ProductTitle"
                             class="form-label fw-bold p-0 ps-1">
                             Product Title :
                         </label>
                         <input
+                            asp-for="CreateReviewModel!.ProductTitle"
                             type="text"
-                            id="productTitle"
                             class="form-control"
-                            aria-label="productTitle"
-                            placeholder="Witcher, for example"
-                            aria-describedby="basic-addon2"/>
+                            placeholder="Witcher, for example"/>
+                        <span class="text-danger " asp-validation-for="CreateReviewModel.ProductTitle"></span>
                     </div>
                     <div class="row mb-3 pb-2 px-2">
-                        <label class="form-label fw-bold p-0 ps-1" for="category">
+                        <label class="form-label fw-bold p-0 ps-1" asp-for="CreateReviewModel.Category">
                             Category :
                         </label>
-                        <select class="form-select" id="category">
-                            <option value="none" selected></option>
-                            <option value="films">Films</option>
-                            <option value="books">Books</option>
-                            <option value="games">Games</option>
-                            <option value="serials">Serials</option>
-                            <option value="channel">YouTube Channels</option>
+                        <select class="form-select" asp-for="CreateReviewModel.Category"
+                                asp-items="Html.GetEnumSelectList<Category>()">
+                            <option>Category</option>
                         </select>
+                        <span class="text-danger" asp-validation-for="CreateReviewModel.Category"></span>
                     </div>
                     <div class="row mb-3 pb-2 px-2">
                         <label
-                            for="reviewText"
+                            asp-for="CreateReviewModel.Text"
                             class="form-label fw-bold p-0 ps-1">
                             Review Text :
                         </label>
-                        <textarea
+                        <textarea asp-for="CreateReviewModel.Text"
                         class="form-control"
                         style="height: 200px"
-                        id="reviewText"
                       ></textarea>
+                        <span class="text-danger " asp-validation-for="CreateReviewModel.Text"></span>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -251,7 +253,7 @@
     aria-labelledby="filter">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <form action="" method="">
+            <form asp-action="" method="">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="filterModal">
                         <i class="fi fi-rr-settings-sliders"></i>
@@ -363,113 +365,118 @@
     </form>
 </div>
 </div>
-<div class="row mb-3">
-    <div class="col-sm-6 col-md-3 col-lg-1 px-0">
-        <img
-            class="img-fluid h-100"
-            src=""/>
-    </div>
-    <div
-        class="col-sm-6 col-md-9 col-lg-11 border-bottom border-end border-start">
-        <div class="row h-100">
-            <div class="col-md-6 col-lg-4">
-                <div
-                    class="row align-items-center fw-bold justify-content-center h-50 py-3 border-bottom border-top">
-                    Title
-                </div>
-                <div
-                    class="row align-items-center fw-bold text-muted justify-content-center h-50 px-2 py-3">
-                    Harry Potter and Sorcerer's Stone
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-2">
-                <div
-                    class="row align-items-center fw-bold justify-content-center h-50 py-3 border-bottom border-top">
-                    Category
-                </div>
-                <div
-                    class="row align-items-center fw-bold text-muted justify-content-center h-50 px-2 py-3">
-                    Films
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-2">
-                <div
-                    class="row align-items-center fw-bold justify-content-center h-50 border-bottom border-top py-3">
-                    Date
-                </div>
-                <div
-                    class="row align-items-center fw-bold text-muted justify-content-center h-50 px-2 py-3">
-                    25.12.2022
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-4">
-                <div
-                    class="row align-items-center fw-bold justify-content-center h-50 border-bottom border-top py-3">
-                    Actions
-                </div>
-                <div
-                    class="row align-items-center fw-bold text-muted justify-content-center h-50 px-2 py-3">
-                    <div class="col-3 p-0 text-center">
-                        <a
-                            class="btn border-0"
-                            href="review.html"
-                            style="
-                      vertical-align: middle;
-                      --bs-btn-padding-y: 0;
-                      --bs-btn-padding-x: 0;
-                    ">
-                            <i class="fi fi-rr-search-alt">
-                            </i
-                            >
-                        </a>
+@for (int i = 0; i < Model.Reviews!.Count(); i++)
+{
+    <div class="row mb-3">
+        <div class="col-sm-6 col-md-3 col-lg-1 px-0">
+            <img
+                class="img-fluid h-100"
+                src=""/>
+        </div>
+        <div
+            class="col-sm-6 col-md-9 col-lg-11 border-bottom border-end border-start">
+
+            <div class="row h-100">
+                <div class="col-md-6 col-lg-4">
+                    <div
+                        class="row align-items-center fw-bold justify-content-center h-50 py-3 border-bottom border-top">
+                        Product Title
                     </div>
-                    <div class="col-3 text-center">
-                        <form action="" method="" class="m-0">
-                            <button
-                                class="btn border-0"
-                                type="sumbit"
-                                style="
-                        vertical-align: middle;
-                        --bs-btn-padding-y: 0;
-                        --bs-btn-padding-x: 0;
-                      ">
-                                <i class="fi fi-rr-eye"></i>
-                            </button>
-                        </form>
+                    <div
+                        class="row align-items-center fw-bold text-muted justify-content-center h-50 px-2 py-3">
+                        @Model.Reviews[i].Product.Title
                     </div>
-                    <div class="col-3 text-center">
-                        <form action="" method="" class="m-0">
-                            <button
-                                class="btn border-0"
-                                type="sumbit"
-                                style="
-                        vertical-align: middle;
-                        --bs-btn-padding-y: 0;
-                        --bs-btn-padding-x: 0;
-                      ">
-                                <i class="fi fi-rr-eye-crossed"></i>
-                            </button>
-                        </form>
+                </div>
+                <div class="col-md-6 col-lg-2">
+                    <div
+                        class="row align-items-center fw-bold justify-content-center h-50 py-3 border-bottom border-top">
+                        Category
                     </div>
-                    <div class="col-3 text-center">
-                        <form action="" method="" class="m-0">
-                            <button
+                    <div
+                        class="row align-items-center fw-bold text-muted justify-content-center h-50 px-2 py-3">
+                        @Model.Reviews[i].Product.Category
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-2">
+                    <div
+                        class="row align-items-center fw-bold justify-content-center h-50 border-bottom border-top py-3">
+                        Date
+                    </div>
+                    <div
+                        class="row align-items-center fw-bold text-muted justify-content-center h-50 px-2 py-3">
+                        @Model.Reviews[i].PublishDateTime.Date.ToString("dd/MM/yyyy")
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div
+                        class="row align-items-center fw-bold justify-content-center h-50 border-bottom border-top py-3">
+                        Actions
+                    </div>
+                    <div
+                        class="row align-items-center fw-bold text-muted justify-content-center h-50 px-2 py-3">
+                        <div class="col-3 p-0 text-center">
+                            <a
                                 class="btn border-0"
-                                type="sumbit"
+                                href="@Url.Action("ReviewDetails", "Reviews", new {reviewId = Model.Reviews[i].ReviewId})"
                                 style="
-                        vertical-align: middle;
-                        --bs-btn-padding-y: 0;
-                        --bs-btn-padding-x: 0;
-                      ">
-                                <i class="fi fi-rr-trash"></i>
-                            </button>
-                        </form>
+                          vertical-align: middle;
+                          --bs-btn-padding-y: 0;
+                          --bs-btn-padding-x: 0;
+                        ">
+                                <i class="fi fi-rr-search-alt">
+                                </i
+                                >
+                            </a>
+                        </div>
+                        <div class="col-3 text-center">
+                            <form action="" method="" class="m-0">
+                                <button
+                                    class="btn border-0"
+                                    type="sumbit"
+                                    style="
+                            vertical-align: middle;
+                            --bs-btn-padding-y: 0;
+                            --bs-btn-padding-x: 0;
+                          ">
+                                    <i class="fi fi-rr-eye"></i>
+                                </button>
+                            </form>
+                        </div>
+                        <div class="col-3 text-center">
+                            <form action="" method="" class="m-0">
+                                <button
+                                    class="btn border-0"
+                                    type="sumbit"
+                                    style="
+                            vertical-align: middle;
+                            --bs-btn-padding-y: 0;
+                            --bs-btn-padding-x: 0;
+                          ">
+                                    <i class="fi fi-rr-eye-crossed"></i>
+                                </button>
+                            </form>
+                        </div>
+                        <div class="col-3 text-center">
+                            <form action="" method="" class="m-0">
+                                <button
+                                    class="btn border-0"
+                                    type="sumbit"
+                                    style="
+                            vertical-align: middle;
+                            --bs-btn-padding-y: 0;
+                            --bs-btn-padding-x: 0;
+                          ">
+                                    <i class="fi fi-rr-trash"></i>
+                                </button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+}
+
 
 <div class="row mb-3">
     <nav>

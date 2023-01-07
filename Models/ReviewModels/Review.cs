@@ -10,7 +10,7 @@ public class Review
     public int ProductRating { get; set; }
     public DateTime PublishDateTime { get; set; }
     public Status Status { get; set; }
-    public byte[] Image { get; set; } = null!;
+//    public byte[]? Image { get; set; }
 
     public User Author { get; set; } = null!;
 
