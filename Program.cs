@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-string connection = builder.Configuration.GetConnectionString("LocalConnection");
+string connection = builder.Configuration.GetConnectionString("DeployConnection");
 builder.Services.AddDbContext<ApplicationContext>(
     options => options.UseSqlServer(connection)
 );
