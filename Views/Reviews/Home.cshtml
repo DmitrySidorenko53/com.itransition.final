@@ -1,4 +1,5 @@
 ﻿@using com.itransition.final.Models.UserData
+@model com.itransition.final.ViewModels.Reviews.Home.HomeReviewsModel
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 <html lang="en">
 <head>
@@ -140,7 +141,7 @@
 </nav>
 <div class="container-lg mt-3 px-4">
 <div class="row mb-3">
-    <div class="col-4 col-sm-6">
+    <div class="col-4 col-sm-6 p-0">
         <button
             type="button"
             class="btn btn-light h-100"
@@ -239,7 +240,7 @@
             </div>
         </div>
     </div>
-    <div class="col-8 col-sm-6">
+    <div class="col-8 col-sm-6 p-0">
         <form class="d-flex me-2 m-0 w-100" role="search" method="" action="">
             <input
                 id="searchInput"
@@ -255,100 +256,103 @@
     </div>
 </div>
 <div class="row mb-3">
-    <div class="col-md-4 col-sm-6 col-lg-3 mb-3">
-        <div class="card">
-            <img
-                class="card-img-top"
-                alt=""/>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-8 text-start">
-                        <h4 class="card-title">Harry Potter</h4>
+    @for (int i = 0; i < Model.Reviews.Count; i++)
+    {
+        <div class="col-md-4 col-sm-6 col-lg-3 mb-3">
+            <div class="card">
+                <img
+                    class="card-img-top"
+                    alt=""/>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-8 text-start">
+                            <h4 class="card-title">@Model.Reviews[i].Product.Title</h4>
+                        </div>
+                        <div class="col-4 text-end">
+                            <form method="" action="">
+                                <button type="submit" class="btn border-0">
+                                    <i class="fi fi-rr-heart"></i>
+                                </button>
+                            </form>
+                        </div>
                     </div>
-                    <div class="col-4 text-end">
-                        <form method="" action="">
-                            <button type="submit" class="btn border-0">
-                                <i class="fi fi-rr-heart"></i>
-                            </button>
-                        </form>
-                    </div>
+                    <span class="card-text">@Model.Reviews[i].Product.Category</span>
+                    <br/>
+                    <span class="card-text">@Model.Reviews[i].Author.Email</span>
+                    <br/>
+                    <span class="card-text">@Model.Reviews[i].PublishDateTime.ToString("dd/MM/yyyy")</span>
                 </div>
-                <span class="card-text">Books</span>
-                <br/>
-                <span class="card-text">dimasidorenko53@gmail.com</span>
-                <br/>
-                <span class="card-text">20.12.2022</span>
-            </div>
-            <div class="card-footer text-end">
-                <div class="row">
-                    <div class="col-8 text-start align-self-center">
-                        <form method="" action="">
-                            <button
-                                class="btn border-0"
-                                type="submit"
-                                name="rate"
-                                value="1"
-                                style="--bs-btn-padding-y: 0; --bs-btn-padding-x: 0">
-                                <i
-                                    class="fi fi-rr-star"
-                                    style="vertical-align: middle">
-                                </i>
-                            </button>
-                            <button
-                                class="btn border-0"
-                                type="submit"
-                                name="rate"
-                                value="2"
-                                style="--bs-btn-padding-y: 0; --bs-btn-padding-x: 0">
-                                <i
-                                    class="fi fi-rr-star"
-                                    style="vertical-align: middle">
-                                </i>
-                            </button>
-                            <button
-                                class="btn border-0"
-                                type="submit"
-                                name="rate"
-                                value="3"
-                                style="--bs-btn-padding-y: 0; --bs-btn-padding-x: 0">
-                                <i
-                                    class="fi fi-rr-star"
-                                    style="vertical-align: middle">
-                                </i>
-                            </button>
-                            <button
-                                class="btn border-0"
-                                type="submit"
-                                name="rate"
-                                value="4"
-                                style="--bs-btn-padding-y: 0; --bs-btn-padding-x: 0">
-                                <i
-                                    class="fi fi-rr-star"
-                                    style="vertical-align: middle">
-                                </i>
-                            </button>
-                            <button
-                                class="btn border-0"
-                                type="submit"
-                                name="rate"
-                                value="5"
-                                style="--bs-btn-padding-y: 0; --bs-btn-padding-x: 0">
-                                <i
-                                    class="fi fi-rr-star"
-                                    style="vertical-align: middle">
-                                </i>
-                            </button>
-                        </form>
-                    </div>
-                    <div class="col-4 text-end">
-                        <a class="btn border-0" href="review.html">
-                            <i class="fi fi-rr-arrow-right"></i>
-                        </a>
+                <div class="card-footer text-end">
+                    <div class="row">
+                        <div class="col-8 text-start align-self-center">
+                            <form method="" action="">
+                                <button
+                                    class="btn border-0"
+                                    type="submit"
+                                    name="rate"
+                                    value="1"
+                                    style="--bs-btn-padding-y: 0; --bs-btn-padding-x: 0">
+                                    <i
+                                        class="fi fi-rr-star"
+                                        style="vertical-align: middle">
+                                    </i>
+                                </button>
+                                <button
+                                    class="btn border-0"
+                                    type="submit"
+                                    name="rate"
+                                    value="2"
+                                    style="--bs-btn-padding-y: 0; --bs-btn-padding-x: 0">
+                                    <i
+                                        class="fi fi-rr-star"
+                                        style="vertical-align: middle">
+                                    </i>
+                                </button>
+                                <button
+                                    class="btn border-0"
+                                    type="submit"
+                                    name="rate"
+                                    value="3"
+                                    style="--bs-btn-padding-y: 0; --bs-btn-padding-x: 0">
+                                    <i
+                                        class="fi fi-rr-star"
+                                        style="vertical-align: middle">
+                                    </i>
+                                </button>
+                                <button
+                                    class="btn border-0"
+                                    type="submit"
+                                    name="rate"
+                                    value="4"
+                                    style="--bs-btn-padding-y: 0; --bs-btn-padding-x: 0">
+                                    <i
+                                        class="fi fi-rr-star"
+                                        style="vertical-align: middle">
+                                    </i>
+                                </button>
+                                <button
+                                    class="btn border-0"
+                                    type="submit"
+                                    name="rate"
+                                    value="5"
+                                    style="--bs-btn-padding-y: 0; --bs-btn-padding-x: 0">
+                                    <i
+                                        class="fi fi-rr-star"
+                                        style="vertical-align: middle">
+                                    </i>
+                                </button>
+                            </form>
+                        </div>
+                        <div class="col-4 text-end">
+                            <a class="btn border-0" href="@Url.Action("ReviewDetails", "Reviews", new {reviewId = Model.Reviews[i].ReviewId})">
+                                <i class="fi fi-rr-arrow-right"></i>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    }
 </div>
 <div class="row mb-3">
     <ul class="pagination justify-content-center">

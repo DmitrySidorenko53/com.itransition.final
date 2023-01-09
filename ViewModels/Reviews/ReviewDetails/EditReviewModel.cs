@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using com.itransition.final.Models;
 using com.itransition.final.Models.ReviewModels;
 
 namespace com.itransition.final.ViewModels.Reviews.ReviewDetails;
@@ -17,4 +18,6 @@ public class EditReviewModel
     [DataType(DataType.Text)]
     [StringLength(500, MinimumLength = 5, ErrorMessage = "Invalid input length!")]
     public string Text { get; set; } = null!;
+
+    public AccessMode AccessMode;
 }

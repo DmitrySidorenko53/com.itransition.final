@@ -365,7 +365,7 @@
     </form>
 </div>
 </div>
-@for (int i = 0; i < Model.Reviews!.Count(); i++)
+@for (int i = 0; i < Model.Reviews!.Count; i++)
 {
     <div class="row mb-3">
         <div class="col-sm-6 col-md-3 col-lg-1 px-0">
@@ -375,12 +375,11 @@
         </div>
         <div
             class="col-sm-6 col-md-9 col-lg-11 border-bottom border-end border-start">
-
-            <div class="row h-100">
+            <div class="row">
                 <div class="col-md-6 col-lg-4">
                     <div
                         class="row align-items-center fw-bold justify-content-center h-50 py-3 border-bottom border-top">
-                        Product Title
+                        Title
                     </div>
                     <div
                         class="row align-items-center fw-bold text-muted justify-content-center h-50 px-2 py-3">
@@ -404,7 +403,7 @@
                     </div>
                     <div
                         class="row align-items-center fw-bold text-muted justify-content-center h-50 px-2 py-3">
-                        @Model.Reviews[i].PublishDateTime.Date.ToString("dd/MM/yyyy")
+                        @Model.Reviews[i].PublishDateTime.ToString("dd/MM/yyyy")
                     </div>
                 </div>
                 <div class="col-md-6 col-lg-4">
@@ -417,15 +416,14 @@
                         <div class="col-3 p-0 text-center">
                             <a
                                 class="btn border-0"
-                                href="@Url.Action("ReviewDetails", "Reviews", new {reviewId = Model.Reviews[i].ReviewId})"
+                                href="@Url.Action("ReviewDetails","Reviews", new {reviewId = Model.Reviews[i].ReviewId})"
                                 style="
-                          vertical-align: middle;
-                          --bs-btn-padding-y: 0;
-                          --bs-btn-padding-x: 0;
-                        ">
+                      vertical-align: middle;
+                      --bs-btn-padding-y: 0;
+                      --bs-btn-padding-x: 0;
+                    ">
                                 <i class="fi fi-rr-search-alt">
-                                </i
-                                >
+                                </i>
                             </a>
                         </div>
                         <div class="col-3 text-center">
@@ -434,10 +432,10 @@
                                     class="btn border-0"
                                     type="sumbit"
                                     style="
-                            vertical-align: middle;
-                            --bs-btn-padding-y: 0;
-                            --bs-btn-padding-x: 0;
-                          ">
+                        vertical-align: middle;
+                        --bs-btn-padding-y: 0;
+                        --bs-btn-padding-x: 0;
+                      ">
                                     <i class="fi fi-rr-eye"></i>
                                 </button>
                             </form>
@@ -448,10 +446,10 @@
                                     class="btn border-0"
                                     type="sumbit"
                                     style="
-                            vertical-align: middle;
-                            --bs-btn-padding-y: 0;
-                            --bs-btn-padding-x: 0;
-                          ">
+                        vertical-align: middle;
+                        --bs-btn-padding-y: 0;
+                        --bs-btn-padding-x: 0;
+                      ">
                                     <i class="fi fi-rr-eye-crossed"></i>
                                 </button>
                             </form>
@@ -462,10 +460,10 @@
                                     class="btn border-0"
                                     type="sumbit"
                                     style="
-                            vertical-align: middle;
-                            --bs-btn-padding-y: 0;
-                            --bs-btn-padding-x: 0;
-                          ">
+                        vertical-align: middle;
+                        --bs-btn-padding-y: 0;
+                        --bs-btn-padding-x: 0;
+                      ">
                                     <i class="fi fi-rr-trash"></i>
                                 </button>
                             </form>
@@ -476,7 +474,6 @@
         </div>
     </div>
 }
-
 
 <div class="row mb-3">
     <nav>

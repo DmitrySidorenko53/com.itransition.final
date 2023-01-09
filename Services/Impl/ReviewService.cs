@@ -27,20 +27,27 @@ public class ReviewService : IReviewService
 
     public List<Review> GetReviewBySortModel(SortModel? sortModel)
     {
+        var defaultReviewsList = GetReviewsByDefault();
         if (sortModel == null)
         {
-            return _context.Reviews.OrderByDescending(r => r.PublishDateTime)
-                .ThenByDescending(r => r.ReviewRatings.Where(rr => rr.Rate != 0).Average(rr => rr.Rate))
-                .Where(r => r.Status == Status.Visible).ToList();
+            return defaultReviewsList;
         }
 
         var reviewsByCategory = sortModel.CategoryBy == Category.None
-            ? _context.Reviews.OrderByDescending(r => r.PublishDateTime)
-                .ThenByDescending(r => r.ReviewRatings.Where(rr => rr.Rate != 0).Average(rr => rr.Rate))
-                .Where(r => r.Status == Status.Visible).ToList()
-            : _context.Reviews.Where(r => r.Product.Category == sortModel.CategoryBy)
-                .Where(r => r.Status == Status.Visible).ToList();
+            ? defaultReviewsList
+            : defaultReviewsList.Where(r => r.Product.Category == sortModel.CategoryBy).ToList();
         return FilterReviewsBySortAndOrder(reviewsByCategory, sortModel);
+    }
+
+    private List<Review> GetReviewsByDefault()
+    {
+        return _context.Reviews.OrderByDescending(r => r.PublishDateTime)
+            .ThenByDescending(r => r.ReviewRatings.Where(rr => rr.Rate != 0).Average(rr => rr.Rate))
+            .Where(r => r.Status == Status.Visible)
+            .Include(r => r.Author)
+            .Include(r => r.Product)
+            .Include(r => r.ReviewRatings)
+            .ToList();
     }
 
     private List<Review> FilterReviewsBySortAndOrder(List<Review> reviews, SortModel sortModel)
@@ -76,21 +83,21 @@ public class ReviewService : IReviewService
         return reviews;
     }
 
-    public Review? GetReviewById(int reviewId)
+    public async Task<Review> GetReviewById(int reviewId)
     {
-        return _context.Reviews.Where(r => r.Status == Status.Visible).Include(r => r.Author)
-            .Include(r => r.Comments).Include(r => r.ReviewRatings)
+        return await _context.Reviews.Include(r => r.Author)
+            .Include(r => r.ReviewRatings)
             .Include(r => r.Product)
-            .FirstOrDefault(r => r.ReviewId == reviewId);
+            .FirstOrDefaultAsync(r => r.ReviewId == reviewId && r.Status == Status.Visible);
     }
 
 
-    public async Task CreateReview(CreateReviewModel? reviewModel, User author)
+    public async Task CreateReview(CreateReviewModel reviewModel, User author)
     {
         var review = CreateFromModel(reviewModel, author);
         var product = CreateFromModel(reviewModel, review);
-        await _context.Reviews.AddAsync(review);
-        if (_context.Products.FirstOrDefault(r => r.Title == reviewModel!.ProductTitle) == null)
+        if (!_context.Products.Any(p => p.Title == reviewModel.ProductTitle 
+                                       && p.Category == reviewModel.Category))
         {
             await _context.Products.AddAsync(product);
         }
@@ -120,7 +127,7 @@ public class ReviewService : IReviewService
         await _context.SaveChangesAsync();
     }
 
-    private Review CreateFromModel(CreateReviewModel? reviewModel, User author)
+    private Review? CreateFromModel(CreateReviewModel? reviewModel, User author)
     {
         return new Review
         {
@@ -134,7 +141,7 @@ public class ReviewService : IReviewService
         };
     }
 
-    private Product CreateFromModel(CreateReviewModel? reviewModel, Review review)
+    private Product CreateFromModel(CreateReviewModel? reviewModel, Review? review)
     {
         return new Product
         {

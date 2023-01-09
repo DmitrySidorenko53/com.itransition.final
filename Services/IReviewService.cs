@@ -10,7 +10,7 @@ public interface IReviewService
 {
     List<Review> GetReviewsByAuthorId(string? userId);
     List<Review> GetReviewBySortModel(SortModel? sortModel);
-    Review? GetReviewById(int reviewId);
-    Task CreateReview(CreateReviewModel? reviewModel, User author);
+    Task<Review> GetReviewById(int reviewId);
+    Task CreateReview(CreateReviewModel reviewModel, User author);
     Task ChangeReviewStatus(Status status, int reviewId);
 }

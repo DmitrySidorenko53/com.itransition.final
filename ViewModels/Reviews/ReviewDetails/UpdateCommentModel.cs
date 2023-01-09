@@ -1,16 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using com.itransition.final.Models.ReviewModels;
-using com.itransition.final.Models.UserData;
+using com.itransition.final.Models;
 
 namespace com.itransition.final.ViewModels.Reviews.ReviewDetails;
 
-public class CommentModel
+public class UpdateCommentModel
 {
     [Required(ErrorMessage = "Required field!")]
     [Display(Name = "Comment Text")]
     [DataType(DataType.Text)]
     [StringLength(200, MinimumLength = 3, ErrorMessage = "Invalid input length!")]
     public string Text { get; set; } = null!;
-    public User Author { get; set; }
-    public Review Review { get; set; }
 }

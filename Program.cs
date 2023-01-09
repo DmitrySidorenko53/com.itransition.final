@@ -27,6 +27,7 @@ builder.Services.AddIdentity<User, IdentityRole>(
 
 builder.Services.AddScoped<IReviewService, ReviewService>();
 builder.Services.AddScoped<ICommentService, CommentService>();
+builder.Services.AddSession();
 builder.Services.AddControllersWithViews();
 
 /*builder.Services.AddAuthentication(options =>
@@ -54,7 +55,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseSession();
 app.UseAuthentication();
 app.UseAuthorization();
 

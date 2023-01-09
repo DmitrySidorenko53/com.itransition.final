@@ -1,4 +1,5 @@
 ﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using com.itransition.final.Models
 @using com.itransition.final.Models.UserData
 @model com.itransition.final.ViewModels.Reviews.ReviewDetails.ReviewDetailsModel
 <html lang="en">
@@ -157,92 +158,93 @@
                 </div>
             </div>
             <div class="col-3 text-end">
-                <button
-                    class="btn btn-light rounded-pill me-2"
-                    type="button"
-                    data-bs-toggle="modal"
-                    data-bs-target="#editReviewModal">
-                    <i class="fi fi-rr-edit" style="vertical-align: middle"></i>
-                </button>
-                <div
-                    class="modal fade"
-                    id="editReviewModal"
-                    tabindex="-1"
-                    aria-labelledby="editReviewModal"
-                    aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <form method="" action="">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="editReviewModal">
-                                        <i
-                                            class="fi fi-rr-edit"
-                                            style="vertical-align: middle">
-                                        </i>
-                                    </h5>
-                                    <button
-                                        type="button"
-                                        class="btn-close"
-                                        data-bs-dismiss="modal"
-                                        aria-label="Close">
-                                    </button>
-                                </div>
-                                <div class="modal-body text-start">
-                                    <div class="row mb-3 pb-2 px-2">
-                                        <label
-                                            for="title"
-                                            class="form-label fw-bold p-0 ps-1">
-                                            Title :
-                                        </label>
-                                        <input
-                                            type="text"
-                                            id="title"
-                                            class="form-control"
-                                            aria-label="title"
-                                            value="You should start christmas holidays with it!"
-                                            aria-describedby="basic-addon1"/>
+                @if (Model.EditReviewModel.AccessMode == AccessMode.Changeable)
+                {
+                    <button
+                        class="btn btn-light rounded-pill me-2"
+                        type="button"
+                        data-bs-toggle="modal"
+                        data-bs-target="#editReviewModal">
+                        <i class="fi fi-rr-edit" style="vertical-align: middle"></i>
+                    </button>
+                    <div
+                        class="modal fade"
+                        id="editReviewModal"
+                        tabindex="-1"
+                        aria-labelledby="editReviewModal"
+                        aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <form method="" action="">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="editReviewModal">
+                                            <i
+                                                class="fi fi-rr-edit"
+                                                style="vertical-align: middle">
+                                            </i>
+                                        </h5>
+                                        <button
+                                            type="button"
+                                            class="btn-close"
+                                            data-bs-dismiss="modal"
+                                            aria-label="Close">
+                                        </button>
                                     </div>
-                                    <div class="row mb-3 pb-2 px-2">
-                                        <label
-                                            for="productTitle"
-                                            class="form-label fw-bold p-0 ps-1">
-                                            Product Title :
-                                        </label>
-                                        <input
-                                            type="text"
-                                            id="productTitle"
-                                            class="form-control"
-                                            aria-label="productTitle"
-                                            value="Harry Potter and Sorcerer's Stone"
-                                            aria-describedby="basic-addon2"/>
+                                    <div class="modal-body text-start">
+                                        <div class="row mb-3 pb-2 px-2">
+                                            <label
+                                                for="title"
+                                                class="form-label fw-bold p-0 ps-1">
+                                                Title :
+                                            </label>
+                                            <input
+                                                type="text"
+                                                id="title"
+                                                class="form-control"
+                                                aria-label="title"
+                                                value="You should start christmas holidays with it!"
+                                                aria-describedby="basic-addon1"/>
+                                        </div>
+                                        <div class="row mb-3 pb-2 px-2">
+                                            <label
+                                                for="productTitle"
+                                                class="form-label fw-bold p-0 ps-1">
+                                                Product Title :
+                                            </label>
+                                            <input
+                                                type="text"
+                                                id="productTitle"
+                                                class="form-control"
+                                                aria-label="productTitle"
+                                                value="Harry Potter and Sorcerer's Stone"
+                                                aria-describedby="basic-addon2"/>
+                                        </div>
+                                        <div class="row mb-3 pb-2 px-2">
+                                            <label
+                                                for="reviewText"
+                                                class="form-label fw-bold p-0 ps-1">
+                                                Review Text :
+                                            </label>
+                                            <textarea
+                                                    class="form-control"
+                                                    style="height: 300px"
+                                                    id="reviewText"
+                                                  ></textarea>
+                                        </div>
                                     </div>
-                                    <div class="row mb-3 pb-2 px-2">
-                                        <label
-                                            for="reviewText"
-                                            class="form-label fw-bold p-0 ps-1">
-                                            Review Text :
-                                        </label>
-                                        <textarea
-                                class="form-control"
-                                style="height: 300px"
-                                id="reviewText"
-                              >
-Review Text.</textarea
-                              >
+                                    <div class="modal-footer">
+                                        <button class="btn btn-light" type="submit">
+                                            <!-- <i class="fi fi-rr-check me-1" style="vertical-align: middle;"></i> -->Save
+                                        </button>
+                                        <button class="btn btn-light" type="reset">
+                                            <!-- <i class="fi fi-rr-cross-small"></i> -->Cancel
+                                        </button>
                                     </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button class="btn btn-light" type="submit">
-                                        <!-- <i class="fi fi-rr-check me-1" style="vertical-align: middle;"></i> -->Save
-                                    </button>
-                                    <button class="btn btn-light" type="reset">
-                                        <!-- <i class="fi fi-rr-cross-small"></i> -->Cancel
-                                    </button>
-                                </div>
-                            </form>
+                                </form>
+                            </div>
                         </div>
                     </div>
-                </div>
+                }
             </div>
         </div>
         <div class="row mb-3">
@@ -333,7 +335,7 @@ Review Text.</textarea
 </div>
 <div class="d-flex align-text-bottom px-3 py-3 pb-2 bg-light">
     <div class="col-9 text-start">
-        <form method="" action="">
+        <form method="" action="" class="m-0">
             <span class="fw-bold">Rate : </span>
             <button
                 class="btn border-0"
@@ -378,7 +380,7 @@ Review Text.</textarea
         </form>
     </div>
     <div class="col text-end">
-        <form method="" action="">
+        <form method="" action="" class="m-0">
             <button
                 type="submit"
                 class="btn border-0"
@@ -409,116 +411,133 @@ Review Text.</textarea
             </h2>
             <div
                 id="flush-collapseFour"
-                class="accordion-collapse collapse"
+                class="accordion-collapse collapse show"
                 aria-labelledby="flush-headingFour"
                 data-bs-parent="#accordionFlushComments">
                 <div
                     class="accordion-body overflow-auto"
                     style="max-height: 300px">
-                    @for (int i = 0; i < Model.Review.Comments.Count; i++)
+                    @for (int i = 0; i < Model.Comments.Count; i++)
                     {
                         <div class="border rounded-start rounded-end mb-2">
                             <div class="row p-2">
-                                <div class="col-10">
-                                    @Model.Review.Comments[i].Text
+                                <div class="col-11">
+                                    @Model.Comments[i].Text
                                 </div>
-                                <div class="col-2 text-end">
-                                    <button
-                                        type="button"
-                                        class="btn border-0"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#editCommentModal"
-                                        style="--bs-btn-padding-y: 0; --bs-btn-padding-x: 0">
-                                        <i
-                                            class="fi fi-rr-edit"
-                                            style="vertical-align: middle">
-                                        </i>
-                                    </button>
-                                    <div
-                                        class="modal fade"
-                                        id="editCommentModal"
-                                        tabindex="-1"
-                                        aria-hidden="true"
-                                        aria-labelledby="editComment">
-                                        <div class="modal-dialog modal-dialog-centered">
-                                            <div class="modal-content">
-                                                <form action="" method="">
-                                                    <div class="modal-header">
-                                                        <h1
-                                                            class="modal-title fs-5"
-                                                            id="exampleModalLabel">
-                                                            <i class="fi fi-rr-edit"></i>
-                                                        </h1>
-                                                        <button
-                                                            type="button"
-                                                            class="btn-close"
-                                                            data-bs-dismiss="modal"
-                                                            aria-label="Close">
-                                                        </button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <div class="row mb-3 pb-2 px-2 text-start">
-                                                            <label
-                                                                for="curCommentText"
-                                                                class="form-label p-0 ps-1 fw-bold">
-                                                                Current Comment:
-                                                            </label>
-                                                            <input
-                                                                type="text"
-                                                                id="curCommentText"
-                                                                class="form-control"
-                                                                aria-label="curComment"
-                                                                aria-describedby="basic-addon1"
-                                                                value="Pretty good review, but you forgot to mention that the best film before christmas is 'Home Alone')))"/>
+                                <div class="col-1 text-end">
+                                    <div class="row">
+                                        @if (Model.Comments[i].Author.UserName.Equals(User.Identity.Name))
+                                        {
+                                            <div class="col">
+                                                <button
+                                                    type="button"
+                                                    class="btn border-0"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#editCommentModal"
+                                                    style="--bs-btn-padding-y: 0; --bs-btn-padding-x: 0">
+                                                    <i
+                                                        class="fi fi-rr-edit"
+                                                        style="vertical-align: middle">
+                                                    </i>
+                                                </button>
+                                                <div
+                                                    class="modal fade"
+                                                    id="editCommentModal"
+                                                    tabindex="-1"
+                                                    aria-hidden="true"
+                                                    aria-labelledby="editComment">
+                                                    <div class="modal-dialog modal-dialog-centered">
+                                                        <div class="modal-content">
+                                                            <form asp-action="EditComment" asp-controller="Comment"  method="post" class="m-0">
+                                                                <input type="hidden" name="commentId" value="@Model.Comments[i].CommentId.ToString()"/>
+                                                                <div class="modal-header">
+                                                                    <h1
+                                                                        class="modal-title fs-5"
+                                                                        id="exampleModalLabel">
+                                                                        <i class="fi fi-rr-edit"></i>
+                                                                    </h1>
+                                                                    <button
+                                                                        type="button"
+                                                                        class="btn-close"
+                                                                        data-bs-dismiss="modal"
+                                                                        aria-label="Close">
+                                                                    </button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <div class="row mb-3 pb-2 px-2 text-start">
+                                                                        <label
+                                                                            asp-for="UpdateCommentModel.Text"
+                                                                            class="form-label p-0 ps-1 fw-bold">
+                                                                            Text
+                                                                        </label>
+                                                                        <input
+                                                                            asp-for="UpdateCommentModel.Text"
+                                                                            class="form-control"
+                                                                            placeholder="@Model.Comments[i].Text"/>
+                                                                        <span class="text-danger" asp-validation-for="UpdateCommentModel.Text"></span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button class="btn btn-light" type="submit">
+                                                                        Save
+                                                                    </button>
+                                                                    <button class="btn btn-light" type="reset">
+                                                                        Cancel
+                                                                    </button>
+                                                                </div>
+                                                            </form>
                                                         </div>
                                                     </div>
-                                                    <div class="modal-footer">
-                                                        <button class="btn btn-light" type="submit">
-                                                            Save
-                                                        </button>
-                                                        <button class="btn btn-light" type="reset">
-                                                            Cancel
-                                                        </button>
-                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <form asp-controller="Comment" asp-action="DeleteComment" method="post" class="m-0">
+                                                    <input type="hidden" name="commentId" value="@Model.Comments[i].CommentId.ToString()"/>
+                                                    <button type="submit" class="btn border-0" style="--bs-btn-padding-y: 0; --bs-btn-padding-x: 0">
+                                                        <i
+                                                            class="fi fi-rr-trash"
+                                                            style="vertical-align: middle">
+                                                        </i>
+                                                    </button>
                                                 </form>
                                             </div>
-                                        </div>
+                                        }
                                     </div>
                                 </div>
                             </div>
                             <div class="row p-2">
                                 <div class="col text-muted overflow-auto">
-                                    @Model.Review.Comments[i].Author.Email
+                                    @Model.Comments[i].Author.Email
                                 </div>
-                                <div class="col text-end text-muted">@Model.Review.Comments[i].PublishDateTime</div>
+                                <div class="col text-end text-muted">@Model.Comments[i].PublishDateTime.ToString("dd/MM/yyyy")</div>
                             </div>
                         </div>
                     }
 
                 </div>
-                <div
-                    class="row pt-3 px-3 g-0 border-top border-dark border-opacity-25">
-                    <form method="post" asp-action="CreateComment" asp-controller="Comment">
-                        <input type="hidden" asp-for="CommentModel.Author" value="@HttpContent."/>
-                        <input type="hidden" asp-for="CommentModel.Review" value="@Model.Review"/>
-                        <div class="input-group mb-3">
-                            <input
-                                asp-for="CommentModel.Text"
-                                type="text"
-                                class="form-control"
-                                placeholder="Comment"/>
-                            <span class="text-danger" asp-validation-for="CommentModel.Review"></span>
-                            <button
-                                class="btn btn-outline-success"
-                                type="submit">
-                                <i
-                                    class="fi fi-rr-paper-plane"
-                                    style="vertical-align: middle">
-                                </i>
-                            </button>
-                        </div>
-                    </form>
-                </div>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <div
+                        class="row pt-3 px-3 g-0 border-top border-dark border-opacity-25">
+                        <form method="post" asp-action="CreateComment" asp-controller="Comment" class="m-0">
+                            <div class="input-group mb-3">
+                                <input
+                                    asp-for="CreateCommentModel.Text"
+                                    class="form-control"
+                                    placeholder="Comment"/>
+                                <span class="text-danger" asp-validation-for="CreateCommentModel.Text"></span>
+                                <button
+                                    class="btn btn-outline-success"
+                                    type="submit">
+                                    <i
+                                        class="fi fi-rr-paper-plane"
+                                        style="vertical-align: middle">
+                                    </i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                }
             </div>
         </div>
     </div>

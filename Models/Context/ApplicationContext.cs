@@ -10,7 +10,7 @@ public sealed class ApplicationContext : IdentityDbContext<User>
 {
     public DbSet<Comment> Comments { get; set; } = null!;
     public DbSet<Product> Products { get; set; } = null!;
-    public DbSet<Review> Reviews { get; set; } = null!;
+    public DbSet<Review?> Reviews { get; set; } = null!;
     public DbSet<ReviewRating> ReviewRatings { get; set; } = null!;
 
     public ApplicationContext(DbContextOptions options) :
